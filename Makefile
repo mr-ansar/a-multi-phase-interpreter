@@ -1,36 +1,42 @@
-BIN=dist
+# Author: Scott Woods <scott.suzuki@gmail.com>
+# MIT License
+#
+# Copyright (c) 2022
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
+# Generate useful lists of build artefacts.
+EXECUTABLES := calc parser codegen vm
+BUILD := $(EXECUTABLES:%=dist/%)
+SPEC := $(EXECUTABLES:%=%.spec)
 
-all: $(BIN)/parser $(BIN)/codegen $(BIN)/vm $(BIN)/calc
+all: build
 
-$(BIN)/parser: parser.py
-	pyinstaller --onefile -p . parser.py
+# Turn a python script into an executable.
+dist/% : %.py
+	pyinstaller --onefile --log-level ERROR -p . $<
 
 clean::
-	-@rm -f $(BIN)/parser
-	-@rm -rf build/parser
+	-rm -rf build dist
 
-$(BIN)/codegen: codegen.py
-	pyinstaller --onefile -p . codegen.py
-
-clean::
-	-@rm -f $(BIN)/codegen
-	-@rm -rf build/codegen
-
-$(BIN)/vm: vm.py
-	pyinstaller --onefile -p . vm.py
+# All the executables.
+build: $(BUILD)
 
 clean::
-	-@rm -f $(BIN)/vm
-	-@rm -rf build/vm
-
-$(BIN)/calc: calc.py
-	pyinstaller --onefile -p . calc.py
-
-clean::
-	-@rm -f $(BIN)/calc
-	-@rm -rf build/calc
-
-clean::
-	-@rm -rf *.spec __pycache__
-	-@rm -rf lib/__pycache__
+	-rm -f $(SPEC)
