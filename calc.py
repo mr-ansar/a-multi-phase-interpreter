@@ -78,4 +78,4 @@ default_input = '(10 - 3) * (4 + 5)'
 #
 #
 if __name__ == '__main__':
-	ar.create_object(calc, compiled_input=default_input)
+	ar.create_object(calc, factory_input=default_input)

@@ -68,4 +68,4 @@ ar.bind(vm)
 default_input = VirtualMachine()
 
 if __name__ == '__main__':
-	ar.create_object(vm, compiled_input=default_input)
+	ar.create_object(vm, factory_input=default_input)

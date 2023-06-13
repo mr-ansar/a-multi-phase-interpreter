@@ -21,12 +21,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# This repo needs the following;
+# - python3 -m venv .env
+# - source .env/bin/activate
+# - pip install pyinstaller
+# - pip install ply
+# - pip install ansar-create
+# - make
+
 # Generate useful lists of build artefacts.
 EXECUTABLES := calc parser codegen vm
 BUILD := $(EXECUTABLES:%=dist/%)
 SPEC := $(EXECUTABLES:%=%.spec)
 
-all: build
+all: run
 
 # Turn a python script into an executable.
 dist/% : %.py
@@ -37,6 +45,9 @@ clean::
 
 # All the executables.
 build: $(BUILD)
+
+run: build
+	PATH="${PWD}/dist:${PATH}" dist/calc --input-file=calc-input --debug-level=DEBUG
 
 clean::
 	-rm -f $(SPEC)

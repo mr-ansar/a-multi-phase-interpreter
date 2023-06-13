@@ -162,4 +162,4 @@ ar.bind(parse)
 default_input = '(18 - 6) * (5 + 7)'
 
 if __name__ == '__main__':
-	ar.create_object(parse, compiled_input=default_input)
+	ar.create_object(parse, factory_input=default_input)

@@ -87,4 +87,4 @@ ar.bind(codegen)
 default_input = AbstractSyntaxTree()
 
 if __name__ == '__main__':
-	ar.create_object(codegen, compiled_input=default_input)
+	ar.create_object(codegen, factory_input=default_input)
