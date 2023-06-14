@@ -27,7 +27,7 @@
 # - pip install pyinstaller
 # - pip install ply
 # - pip install ansar-create
-# - make
+# - make (runs calc with input from calc-input)
 
 # Generate useful lists of build artefacts.
 EXECUTABLES := calc parser codegen vm
