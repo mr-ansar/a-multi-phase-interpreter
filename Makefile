@@ -27,7 +27,11 @@
 # - pip install pyinstaller
 # - pip install ply
 # - pip install ansar-create
-# - make (runs calc with input from calc-input)
+# - make build
+#
+# The repo is ready. A make at this point runs the interpeter passing
+# the calc-input file.
+# - make
 
 # Generate useful lists of build artefacts.
 EXECUTABLES := calc parser codegen vm
