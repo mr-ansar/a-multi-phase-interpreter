@@ -1,4 +1,4 @@
-# Author: Scott Woods <scott.suzuki@gmail.com>
+# Author: Scott Woods <scott.18.ansar@gmail.com.com>
 # MIT License
 #
 # Copyright (c) 2022
