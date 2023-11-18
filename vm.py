@@ -35,31 +35,31 @@ from lib.vm_if import MachineValue
 #
 #
 def execute(self, code):
-    stack = []
-    self.console('Virtual machine start')
-    for c in code:
-        if self.halted:
-            return ar.Aborted()
-        c(stack)
-        t = ', '.join(['{value}'.format(value=v) for v in stack])
-        self.console('{code:8} [{values}]'.format(code=c.__art__.name, values=t))
-    self.console('Virtual machine end ({value})'.format(value=stack[-1]))
-    return MachineValue(stack[-1])
+	stack = []
+	self.console('Virtual machine start')
+	for c in code:
+		if self.halted:
+			return ar.Aborted()
+		c(stack)
+		t = ', '.join(['{value}'.format(value=v) for v in stack])
+		self.console('{code:8} [{values}]'.format(code=c.__art__.name, values=t))
+	self.console('Virtual machine end ({value})'.format(value=stack[-1]))
+	return MachineValue(stack[-1])
 
 ar.bind(execute)
 
 #
 #
 def vm(self, settings, input):
-    if input.code is None:
-        return MachineValue(0.0)
-    a = self.create(execute, input.code)
-    m = self.select(ar.Completed, ar.Stop)
-    if isinstance(m, ar.Stop):
-        self.halt(a)
-        self.select(ar.Completed)
-        return ar.Aborted()
-    return m.value
+	if input.code is None:
+		return MachineValue(0.0)
+	a = self.create(execute, input.code)
+	m = self.select(ar.Completed, ar.Stop)
+	if isinstance(m, ar.Stop):
+		self.halt(a)
+		self.select(ar.Completed)
+		return ar.Aborted()
+	return m.value
 
 ar.bind(vm)
 

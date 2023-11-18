@@ -87,7 +87,7 @@ ar.bind(Negate)
 
 class VirtualMachine(object):
 	def __init__(self, code=None):
-		self.code = code
+		self.code = code or ar.default_vector()
 
 VIRTUAL_MACHINE_SCHEMA = {
 	'code': ar.VectorOf(ar.Any()),

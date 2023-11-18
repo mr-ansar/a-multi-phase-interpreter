@@ -33,52 +33,52 @@ from lib.codegen_if import VirtualMachine
 from lib.codegen_if import Push, Add, Sub, Mul, Div, Negate
 
 def walk(ast):
-    if isinstance(ast, BinaryOperator):
-        yield from walk(ast.left_operand)
-        yield from walk(ast.right_operand)
-        if ast.operator == OP.ADD:
-            yield Add()
-        elif ast.operator == OP.SUB:
-            yield Sub()
-        elif ast.operator == OP.MUL:
-            yield Mul()
-        elif ast.operator == OP.DIV:
-            yield Div()
-        else:
-            pass
-    elif isinstance(ast, UnaryOperator):
-        yield from walk(ast.operand)
-        yield Negate()
-    elif isinstance(ast, Operand):
-        yield Push(ast.value)
-    else:
-        pass
+	if isinstance(ast, BinaryOperator):
+		yield from walk(ast.left_operand)
+		yield from walk(ast.right_operand)
+		if ast.operator == OP.ADD:
+			yield Add()
+		elif ast.operator == OP.SUB:
+			yield Sub()
+		elif ast.operator == OP.MUL:
+			yield Mul()
+		elif ast.operator == OP.DIV:
+			yield Div()
+		else:
+			pass
+	elif isinstance(ast, UnaryOperator):
+		yield from walk(ast.operand)
+		yield Negate()
+	elif isinstance(ast, Operand):
+		yield Push(ast.value)
+	else:
+		pass
 
 #
 #
 def generate(self, ast):
-    code = []
-    self.console('Instruction block begin')
-    for i, c in enumerate(walk(ast)):
-        if self.halted:
-            return ar.Aborted()
-        self.console('[{i:04}] {code}'.format(i=i, code=c.__art__.name))
-        code.append(c)
-    self.console('Instruction block end')
-    return VirtualMachine(code)
+	code = []
+	self.console('Instruction block begin')
+	for i, c in enumerate(walk(ast)):
+		if self.halted:
+			return ar.Aborted()
+		self.console('[{i:04}] {code}'.format(i=i, code=c.__art__.name))
+		code.append(c)
+	self.console('Instruction block end')
+	return VirtualMachine(code)
 
 ar.bind(generate)
 
 #
 #
 def codegen(self, settings, input):
-    a = self.create(generate, input.ast)
-    m = self.select(ar.Completed, ar.Stop)
-    if isinstance(m, ar.Stop):
-        self.halt(a)
-        self.select(ar.Completed)
-        return ar.Aborted()
-    return m.value
+	a = self.create(generate, input.ast)
+	m = self.select(ar.Completed, ar.Stop)
+	if isinstance(m, ar.Stop):
+		self.halt(a)
+		self.select(ar.Completed)
+		return ar.Aborted()
+	return m.value
 
 ar.bind(codegen)
 

@@ -40,36 +40,36 @@ from lib.vm_if import MachineValue
 #
 #
 def calc(self, settings, input):
-    # Phase #1 - compile to an abstract syntax tree.
-    a = self.create(ar.Process, 'parser', input=input)
-    m = self.select(ar.Completed, ar.Stop)
-    if isinstance(m, ar.Stop):
-        self.send(m, a)
-        self.select(ar.Completed)
-        return ar.Aborted()
-    r = m.value
-    if not isinstance(r, AbstractSyntaxTree):
-        return r
+	# Phase #1 - compile to an abstract syntax tree.
+	a = self.create(ar.Process, 'parser', input=input)
+	m = self.select(ar.Completed, ar.Stop)
+	if isinstance(m, ar.Stop):
+		self.send(m, a)
+		self.select(ar.Completed)
+		return ar.Aborted()
+	r = m.value
+	if not isinstance(r, AbstractSyntaxTree):
+		return r
 
-    # Phase #2 - encode abstract syntax tree to machine code.
-    self.create(ar.Process, 'codegen', input=r)
-    m = self.select(ar.Completed, ar.Stop)
-    if isinstance(m, ar.Stop):
-        self.send(m, a)
-        self.select(ar.Completed)
-        return ar.Aborted()
-    r = m.value
-    if not isinstance(r, VirtualMachine):
-        return r
+	# Phase #2 - encode abstract syntax tree to machine code.
+	self.create(ar.Process, 'codegen', input=r)
+	m = self.select(ar.Completed, ar.Stop)
+	if isinstance(m, ar.Stop):
+		self.send(m, a)
+		self.select(ar.Completed)
+		return ar.Aborted()
+	r = m.value
+	if not isinstance(r, VirtualMachine):
+		return r
 
-    self.create(ar.Process, 'vm', input=r)
-    m = self.select(ar.Completed, ar.Stop)
-    if isinstance(m, ar.Stop):
-        self.send(m, a)
-        self.select(ar.Completed)
-        return ar.Aborted()
-    r = m.value
-    return r
+	self.create(ar.Process, 'vm', input=r)
+	m = self.select(ar.Completed, ar.Stop)
+	if isinstance(m, ar.Stop):
+		self.send(m, a)
+		self.select(ar.Completed)
+		return ar.Aborted()
+	r = m.value
+	return r
 
 ar.bind(calc)
 
